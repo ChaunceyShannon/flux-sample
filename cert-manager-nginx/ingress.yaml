@@ -7,6 +7,8 @@ metadata:
     kubernetes.io/ingress.class: kong
     nginx.ingress.kubernetes.io/proxy-body-size: 2048m
     cert-manager.io/cluster-issuer: letsencrypt
+    konghq.com/protocols: https
+    konghq.com/https-redirect-status-code: "301"
 spec:
   tls:
   - hosts:
