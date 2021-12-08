@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenkins
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jenkins
+  template:
+    metadata:
+      labels:
+        app: jenkins
+    spec:
+      initContainers:
+        - name: init-container
+          image: ubuntu:20.04
+
+          args:
+            - /bin/sh
+            - -c
+            - |
+              chown 1000:1000 -R /var/jenkins_home
+
+          volumeMounts:
+            - mountPath: /var/jenkins_home
+              name: jenkins-home
+
+      containers:
+        - image: jenkins/jenkins:lts-jdk11
+          name: jenkins
+
+          volumeMounts:
+            - mountPath: /var/jenkins_home
+              name: jenkins-home
+  
+      volumes:
+        - name: jenkins-home
+          persistentVolumeClaim:
+            claimName: jenkins-pvc

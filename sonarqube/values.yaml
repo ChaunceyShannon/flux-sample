@@ -1,0 +1,20 @@
+ingress:
+  enabled: true
+  hosts:
+    - name: sonarqube.example.com
+      path: /
+  annotations: 
+    kubernetes.io/ingress.class: kong
+    cert-manager.io/cluster-issuer: letsencrypt
+  tls: 
+    - hosts:
+      - sonarqube.example.com
+      secretName: sonarqube.example.com.ssl # just a name
+
+persistence:
+  enabled: true
+  storageClass: gp2
+
+postgresql:
+  persistence:
+    storageClass: gp2
