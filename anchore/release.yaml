@@ -1,0 +1,21 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: anchore
+  namespace: flux-system
+spec:
+  chart:
+    spec:
+      chart: anchore-engine 
+      version: "1.16.0"
+      sourceRef:
+        kind: HelmRepository
+        name: anchore
+  valuesFrom:
+    - kind: ConfigMap
+      name: anchore-values
+  interval: 1h0m0s
+  releaseName: anchore
+  targetNamespace: anchore
+

@@ -1,0 +1,19 @@
+postgresql:
+  # To use an external DB or Google CloudSQL in GKE, uncomment & set 'enabled: false'
+  # externalEndpoint, postgresUser, postgresPassword & postgresDatabase are required values for external postgres
+  enabled: false
+  # If enabled=false specify an external (already existing) postgres deployment for use.
+  # Set to the host and port. eg. mypostgres.myserver.io:5432
+  externalEndpoint: postgresql-anchore.postgresql-anchore
+  postgresUser: anchoreengine
+  postgresPassword: anchore-postgres,123
+  postgresDatabase: anchore
+
+# Global configuration shared by all anchore-engine services.
+anchoreGlobal:
+  # Sets the password & email address for the default anchore-engine admin user.
+  defaultAdminPassword: example@admin.password
+  defaultAdminEmail: example@email.com
+
+anchorePolicyEngine:
+  vulnerabilityProvider: grype

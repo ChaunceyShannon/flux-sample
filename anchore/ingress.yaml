@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: anchore-anchore-engine
+  namespace: anchore
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    konghq.com/https-redirect-status-code: "301"
+    konghq.com/protocols: https
+spec:
+  ingressClassName: kong
+  tls:
+    - hosts:
+        - "anchore-api.example.com"
+      secretName: anchore-api.example.com.ssl
+  rules:
+    - host: "anchore-api.example.com"
+      http:
+        paths:
+        - path: /v1/
+          pathType: Prefix
+          backend:
+            service:
+              name: anchore-anchore-engine-api
+              port:
+                number: 8228
