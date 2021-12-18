@@ -1,0 +1,21 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: postgresql-anchore
+  namespace: flux-system
+spec:
+  chart:
+    spec:
+      chart: postgresql
+      version: "10.13.14"
+      sourceRef:
+        kind: HelmRepository
+        name: bitnami
+  valuesFrom:
+    - kind: ConfigMap
+      name: postgresql-anchore-values
+  interval: 1h0m0s
+  releaseName: postgresql-anchore
+  targetNamespace: postgresql-anchore
+

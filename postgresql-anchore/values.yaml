@@ -1,0 +1,9 @@
+global:
+  storageClass: "openebs-hostpath"
+  postgresql:
+    postgresqlDatabase: "anchore"
+    postgresqlUsername: "anchoreengine"
+    existingSecret: ""
+    postgresqlPassword: "anchore-postgres,123"
+    servicePort: ""
+    replicationPassword: ""
