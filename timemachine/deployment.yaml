@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: timemachine
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: timemachine
+  template:
+    metadata:
+      labels:
+        app: timemachine
+    spec:
+      containers:
+        - image: chaunceyshannon/timemachine
+          imagePullPolicy: IfNotPresent
+          name: timemachine
+
+          env:
+            - name: AFP_VOL_NAME 
+              value: backup
+            - name: AFP_USER 
+              value: username
+            - name: AFP_PASSWORD
+              value: password
+            - name: AFP_USER_UID 
+              value: '1000'
+            - name: AFP_USER_GID 
+              value: '1000'
+            - name: AFP_SIZE_LIMIT
+              value: '2024000'
+
+          volumeMounts:
+            - mountPath: /timemachine
+              name: data
+            
+      volumes:
+        - name: data
+          hostPath:
+            path: /data/timemachine

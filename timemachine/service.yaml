@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: timemachine-svc
+spec:
+  selector:
+    app: timemachine
+  type: LoadBalancer
+  ports:
+    - name: p5
+      protocol: TCP
+      port: 548
+      targetPort: 548
