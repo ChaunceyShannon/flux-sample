@@ -1,0 +1,12 @@
+persistentVolume:
+  enabled: true
+  storageClass: "openebs-hostpath"
+
+env:
+  DRONE_GITEA_CLIENT_ID: ffb77623-dbe2-4c23-969a-eef0c39567c0
+  DRONE_GITEA_CLIENT_SECRET: csF28e8JKBkbv3rfohmYf4YuPaA4ntC8bRqs9CyIw8Si
+  DRONE_GITEA_SERVER: https://gitea.example.com
+  DRONE_GIT_ALWAYS_AUTH: true
+  DRONE_RPC_SECRET: MUST_BE_THE_SAME_IN_RUNNER
+  DRONE_SERVER_HOST: drone.example.com
+  DRONE_SERVER_PROTO: https
