@@ -1,0 +1,21 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: drone-runner
+  namespace: flux-system
+spec:
+  chart:
+    spec:
+      chart: drone-runner-kube
+      version: "0.1.5"
+      sourceRef:
+        kind: HelmRepository
+        name: drone
+  valuesFrom:
+    - kind: ConfigMap
+      name: drone-runner-values
+  interval: 1h0m0s
+  releaseName: drone-runner
+  targetNamespace: drone-runner
+

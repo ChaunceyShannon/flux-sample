@@ -1,0 +1,14 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - namespace.yaml
+  - release.yaml
+  - ingress.yaml
+  # - source.yaml // 在drone里面有定义, 这里就注释了
+generatorOptions:
+  disableNameSuffixHash: true
+configMapGenerator:
+  - name: drone-runner-values
+    namespace: flux-system
+    files:
+      - values.yaml=values.yaml
