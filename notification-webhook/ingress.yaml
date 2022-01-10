@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: notification-webhook.example.com
+  annotations:
+    kubernetes.io/ingress.class: kong
+    cert-manager.io/cluster-issuer: letsencrypt
+    konghq.com/protocols: https
+    konghq.com/https-redirect-status-code: "301"
+spec:
+  tls:
+  - hosts:
+    - notification-webhook.example.com
+    secretName: example.com.ssl
+  rules:
+  - host: notification-webhook.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: notification-webhook-svc
+            port:
+              number: 80
