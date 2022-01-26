@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: synapse
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: synapse
+  template:
+    metadata:
+      labels:
+        app: synapse
+    spec:
+      initContainers:
+        - name: init-container
+          image: ubuntu:20.04
+
+          args:
+            - /bin/sh
+            - -c
+            - |
+              chown 991:991 -R /data
+
+          volumeMounts:
+            - mountPath: /data
+              name: data
+          
+          securityContext:
+            privileged: true
+
+      containers:
+        - image: matrixdotorg/synapse
+          imagePullPolicy: IfNotPresent
+          name: synapse
+
+          volumeMounts:
+            - name: configmap-volume
+              mountPath: /data/homeserver.yaml
+              subPath: homeserver.yaml
+
+            - name: configmap-volume
+              mountPath: /data/log.config
+              subPath: log.config
+
+            - name: configmap-volume
+              mountPath: /data/signing.key
+              subPath: signing.key
+
+            - mountPath: /data
+              name: data
+        
+        - name: synapse-serve-server-wellknown
+          image: chaunceyshannon/synapse-serve-server-wellknown
+
+          env:
+            - name: URL
+              value: im.example.com:443
+
+      volumes:
+        - name: configmap-volume
+          configMap:
+            name: synapse-configmap
+
+        - name: data
+          persistentVolumeClaim:
+            claimName: synapse-pvc
+
